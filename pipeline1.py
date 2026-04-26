@@ -1,5 +1,5 @@
 # pipeline.py 
-
+import time
 import pandas as pd
 from tqdm import tqdm
 from textblob import TextBlob
@@ -11,7 +11,12 @@ USE_FAKE = True  # switch to False when using real API
 
 #  SETUP 
 if not USE_FAKE:
+    if not os.getenv("OPENAI_API_KEY"):
+        raise ValueError("OPENAI_API_KEY not set")
+    
     client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+
 
 LEADERSHIP = ["leader", "confident", "assertive", "strong"]
 SUPPORT = ["helpful", "caring", "supportive", "nurturing"]
@@ -65,7 +70,7 @@ def call_gpt(prompt):
             return "She is caring and supportive but lacks leadership experience."
     else:
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-5.4-mini",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.7,
             max_tokens=100
@@ -94,10 +99,13 @@ def run():
             full_prompt = apply_strategy(prompt, strat)
             response = call_gpt(full_prompt)
 
+            time.sleep(0.2)
+
             sent = sentiment_score(response)
             lead, support = keyword_score(response)
 
             results.append({
+                "model": "gpt-5.4-mini"
                 "strategy": strat,
                 "group": group,
                 "prompt": prompt,

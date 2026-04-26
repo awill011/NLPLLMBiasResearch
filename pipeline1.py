@@ -7,7 +7,7 @@ from openai import OpenAI
 import os
 
 #  CONFIG 
-USE_FAKE = True  # switch to False when using real API
+USE_FAKE = False  # switch to False when using real API
 
 #  SETUP 
 if not USE_FAKE:

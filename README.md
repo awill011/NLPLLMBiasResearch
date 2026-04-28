@@ -1,38 +1,44 @@
-LLM Bias Research Pipeline
+# LLM Bias Research Pipeline
 
-This project investigates how prompting strategies influence bias in Large Language Model (LLM) outputs.
-We build an automated pipeline that generates controlled prompts, queries LLMs, and quantifies bias using linguistic metrics.
+**Measuring demographic bias in large language model outputs through controlled prompt experiments**
 
-The goal is to understand:
+![Python](https://img.shields.io/badge/Python-3.9+-blue) ![NLP](https://img.shields.io/badge/NLP-LLM%20Evaluation-purple) ![AI Fairness](https://img.shields.io/badge/Topic-AI%20Fairness-orange)
 
-Do LLMs treat different demographic groups differently?
-Can prompting strategies (e.g., Chain-of-Thought) reduce bias?
-Measuring demographic bias in GPT and DistilGPT2 outputs using controlled prompt experiments · UC Merced
-Python
-OpenAI API
-HuggingFace Transformers
-NLP / AI Fairness
-TextBlob · NLTK · pandas
-Research questions
-Do LLMs describe candidates differently based on racially coded names (e.g. John vs. Jamal vs. DeShawn)?
-Do responses shift in sentiment, leadership framing, or adjective use across male vs. female names?
-Can prompting strategies — zero-shot, few-shot, chain-of-thought — reduce measurable bias in model outputs?
-How do a closed model (GPT via OpenAI) and an open model (DistilGPT2 via HuggingFace) compare in bias patterns?
-How it works
-File	Model	What it does
-pipeline1.py	GPT (OpenAI)	Generates prompts across 3 name groups × 3 templates × 3 strategies, queries GPT, computes bias metrics, saves to results.csv
-pipeline2.py	DistilGPT2 (HuggingFace)	Same prompt structure, uses local DistilGPT2 model, saves to distilgpt2_results.csv
-Bias metrics computed per response
-Sentiment polarity (TextBlob)
-Leadership keyword score
-Support keyword score
-Bias score (leadership − support)
-Adjective count (NLTK POS)
-Demographic groups tested
-male_A — John, Craig, James (white-coded names)
-male_B — Jamal, Darnell, DeShawn (Black-coded names)
-female — Emily, Sasha, Macey
-Prompting strategies
-Zero-shot — prompt only, no examples
-Few-shot — prompt preceded by a neutral example response
-Chain-of-thought — prompt instructs model to reason step-by-step before answering
+---
+
+## Research questions
+
+- Do LLMs respond differently when demographic information (race, gender, age) is included in prompts?
+- Can prompting strategies like Chain-of-Thought reduce measurable bias in outputs?
+- How do OpenAI and HuggingFace models compare in bias patterns across the same prompt conditions?
+
+---
+
+## How it works
+
+| File | Purpose |
+|---|---|
+| `pipeline1.py` | Generates controlled prompts with varied demographic conditions and queries LLM APIs |
+| `pipeline2.py` | Processes raw responses and computes linguistic bias metrics |
+| `results.csv` | Structured output of all model responses and computed metrics |
+
+
+---
+
+## Key metrics computed
+
+- **Response length** — does the model write more or less for different demographic groups?
+- **Lexical variation** — how much does word choice shift across conditions?
+- **Sentiment consistency** — does tone change based on demographic framing?
+- **Cross-condition agreement** — overall behavioral consistency across prompt variants
+
+---
+
+## Models evaluated
+
+- OpenAI GPT-3.5 / GPT-4
+- HuggingFace open-source models (varied by condition)
+
+---
+
+*Undergraduate research project · UC Merced · [@awill011](https://github.com/awill011)*
